@@ -113,8 +113,12 @@ def scrape_source(url: str) -> Source:
         def _get_factual(text):
             if 'MIXED' in text:
                 return Factual.MIXED
+            elif 'VERY HIGH' in text or 'Factual Reporting: Very High' in text:
+                return Factual.VERYHIGH
             elif 'HIGH' in text or 'Factual Reporting: High' in text:
                 return Factual.HIGH
+            elif 'MOSTLY FACTUAL' in text or 'Factual Reporting: Mostly Factual' in text:
+                return Factual.MOSTLYHIGH
             elif 'QUESTIONABLE SOURCE' in text:
                 return Factual.QUESTIONABLE
             else:

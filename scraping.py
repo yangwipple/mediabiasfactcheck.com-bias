@@ -65,7 +65,7 @@ def get_pages() -> List[str]:
         bs = BeautifulSoup(raw_html, 'html.parser')
         links = bs.find('table', attrs={'id': 'mbfc-table'})
         for a in links.select('a'):
-            print(a['href'])
+            #print(a['href'])
             pages.append(a['href'])
         print()
 
@@ -152,7 +152,7 @@ def scrape_source(url: str) -> Source:
 
     bias = analyse_left_right_image(left_right_image_from_url(image_url))
 
-    print(f'Scraping {url} with name "{source_name}", img "{image_url}", and bias {bias}')
+    #print(f'Scraping {url} with name "{source_name}", img "{image_url}", and bias {bias}')
     return Source(name=source_name, img_url=image_url, page_url=url, factual=factual, bias=bias)
 
 

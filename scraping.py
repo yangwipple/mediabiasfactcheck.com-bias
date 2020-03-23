@@ -146,7 +146,7 @@ def scrape_source(url: str) -> Source:
     except Exception as e:
         raise NotANewsSourceError(f'Could not find factual information on "{source_name}" with url "{url}"')
 
-    bias = analyse_left_right_image(left_right_image_from_url(url))
+    bias = analyse_left_right_image(left_right_image_from_url(image_url))
 
     print(f'Scraping {url} with name "{source_name}", img "{image_url}", and bias {bias}')
     return Source(name=source_name, img_url=image_url, page_url=url, factual=factual, bias=bias)
@@ -173,6 +173,6 @@ def left_right_image_from_url(url: str) -> np.ndarray:
     req = request.urlopen(url)
     arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
     img = cv2.imdecode(arr, -1)  # 'Load it as it is'
-
+    
     # return the image
     return img

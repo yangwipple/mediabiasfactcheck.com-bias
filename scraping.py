@@ -78,7 +78,7 @@ def scrape_sources(urls: List[str]) -> Tuple[List[Source], List[BrokenSource]]:
     for url in urls:
         try:
             sources.append(scrape_source(url))
-        except NotANewsSourceError as e:
+        except Exception as e:
             broken_sources.append(BrokenSource(page_url=url, error_message=str(e)))
             warnings.warn(str(e))
     return sources, broken_sources
@@ -87,7 +87,7 @@ def scrape_sources(urls: List[str]) -> Tuple[List[Source], List[BrokenSource]]:
 def scrape_source(url: str) -> Source:
     try:
         raw_html = simple_get(url)
-    except HTTPError as e:
+    except Exception as e:
         raise NotANewsSourceError(f'The page "{url}" did not contain valid content.')
     bs = BeautifulSoup(raw_html, 'html.parser')
 

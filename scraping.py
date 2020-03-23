@@ -107,8 +107,8 @@ def scrape_source(url: str) -> Source:
         image_url: str = image["src"]
         image_url = image_url[:image_url.find('?')]
     except Exception as e:
-        # print(images)
-        # print(e)
+        print(images)
+        print(e)
         raise NotANewsSourceError(
             f'The source "{source_name}" with url "{url}" does not contain a left-right bias image.')
 

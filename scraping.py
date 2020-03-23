@@ -60,11 +60,13 @@ def get_pages() -> List[str]:
         print('# # # # # # # # # # # # # #')
         raw_html = simple_get(source)
         bs = BeautifulSoup(raw_html, 'html.parser')
-        links = bs.find('td')
-        for link in links:
-            for a in link.select('a'):
-                print(a['href'])
-                pages.append(a['href'])
+        print('# # # # # # # # # # # # # #')
+        raw_html = simple_get(source)
+        bs = BeautifulSoup(raw_html, 'html.parser')
+        links = bs.find('table', attrs={'id': 'mbfc-table'})
+        for a in links.select('a'):
+            print(a['href'])
+            pages.append(a['href'])
         print()
 
     return pages

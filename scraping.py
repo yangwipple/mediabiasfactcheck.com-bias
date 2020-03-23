@@ -61,9 +61,10 @@ def get_pages() -> List[str]:
         raw_html = simple_get(source)
         bs = BeautifulSoup(raw_html, 'html.parser')
         links = bs.find('td')
-        for a in links.select('a'):
-            print(a['href'])
-            pages.append(a['href'])
+        for link in links:
+            for a in link.select('a'):
+                print(a['href'])
+                pages.append(a['href'])
         print()
 
     return pages

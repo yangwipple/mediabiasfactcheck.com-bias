@@ -174,9 +174,11 @@ def load_sources(file_name='sources_file.csv') -> List[Source]:
 
 
 def left_right_image_from_url(url: str) -> np.ndarray:
-    req = request.urlopen(url)
-    arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
-    img = cv2.imdecode(arr, -1)  # 'Load it as it is'
-    
+    try:
+        req = request.urlopen(url)
+        arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+        img = cv2.imdecode(arr, -1)  # 'Load it as it is'
+    except Exception as e:
+        raise NotANewsSourceError(f'Error loading/opening image for image url "{url}"')
     # return the image
     return img

@@ -103,7 +103,8 @@ def scrape_source(url: str) -> Source:
         for heading in headings:
             images += heading.find_all('img', recursive=True)
         for heading in headings2:
-            images += heading.find_all('img', recursive=True)
+            if len(heading.find_all('img', recursive=True)) == 2:
+                images += heading.find_all('img', recursive=True)
         image = images[0]
         # images = bs.find_all('img', attrs={'class', 'aligncenter'})
         # image = [i for i in filter(lambda img: img['alt'] != '', images)][0]

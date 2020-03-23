@@ -3,9 +3,11 @@ from enum import Enum
 
 
 class Factual(Enum):
-    HIGH = 1
-    MIXED = 2
-    QUESTIONABLE = 3
+    VERYHIGH = 1
+    HIGH = 2
+    MOSTLYHIGH = 3
+    MIXED = 4
+    QUESTIONABLE = 5
 
 
 @dataclass

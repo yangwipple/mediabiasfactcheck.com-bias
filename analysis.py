@@ -7,7 +7,7 @@ from common import Factual, Source, AdFontesMediaSource
 
 def simple_left_right_bias(sources: List[Source]) -> Dict[str, Dict[Factual, int]]:
     def fact():
-        return {v: 0 for v in [Factual.HIGH, Factual.MIXED, Factual.QUESTIONABLE]}
+        return {v: 0 for v in [Factual.VERYHIGH, Factual.HIGH, Factual.MOSTLYHIGH, Factual.MIXED, Factual.QUESTIONABLE]}
 
     biases = {k: fact() for k in ['extremeleft', 'left', 'leftcenter', 'leastbiased', 'rightcenter', 'right', 'extremeright']}
     for source in sources:

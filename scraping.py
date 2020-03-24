@@ -116,7 +116,7 @@ def scrape_source(url: str) -> Source:
         bias_cls = re.findall('^([a-z]*)', image_url.split('/')[-1])[0]
     except Exception as e:
         #print(images)
-        #print(e)
+        print(e)
         raise NotANewsSourceError(
             f'The source "{source_name}" with url "{url}" does not contain a left-right bias image.')
 
@@ -167,6 +167,7 @@ def scrape_source(url: str) -> Source:
         if domain is None:
             raise Exception()
     except Exception as e:
+        print(e)
         raise NotANewsSourceError(f'Could not find domain information on "{source_name}" with url "{url}"')
         
         

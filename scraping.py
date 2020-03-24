@@ -152,22 +152,26 @@ def scrape_source(url: str) -> Source:
         raise NotANewsSourceError(f'Could not find factual information on "{source_name}" with url "{url}"')
         
     try:
-        def _get_domain(text):
+        def get_domain(text):
             return re.sub(r'.*?href="(?:https|http):\/\/(.*?)".*', r'\1',text)
 
         domain = None
         domain_text = None
-        if factual is None:
+        
+        if domain is None:
             paragraphs = bs.find_all('p')
             for p in paragraphs:
-                domain_text = p.replace('\u00a0', ' ').lower()
-                if 'source:' in domain_text:
-                    domain = _get_domain(p)
+                domain_text = p
+                if 'Source:' in domain_text:
+                    print(domain_text)
+                    domain = get_domain(p)
                     break
+        
         if domain is None:
             raise Exception()
-        print(paragraphs)
+        
     except Exception as e:
+        print(e)
         raise NotANewsSourceError(f'Could not find domain information on "{source_name}" with url "{url}"')
         
         

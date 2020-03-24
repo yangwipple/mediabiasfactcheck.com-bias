@@ -113,7 +113,7 @@ def scrape_source(url: str) -> Source:
         # image = [i for i in filter(lambda img: img['alt'] != '', images)][0]
         image_url: str = image["src"]
         image_url = image_url[:image_url.find('?')]
-        bias_cls = re.findall('^([a-z]*)', source.image_url.split('/')[-1])[0]
+        bias_cls = re.findall('^([a-z]*)', image_url.split('/')[-1])[0]
     except Exception as e:
         #print(images)
         #print(e)

@@ -161,11 +161,11 @@ def scrape_source(url: str) -> Source:
         if domain is None:
             paragraphs = bs.find_all('p')
             for p in paragraphs:
-                domain_text = p
-                if 'Source:' in domain_text:
-                    print(domain_text)
-                    domain = get_domain(p)
+  
+                if "Source:" in str(p):
+                    domain = get_domain(str(p))
                     break
+                
         
         if domain is None:
             raise Exception()

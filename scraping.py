@@ -113,6 +113,7 @@ def scrape_source(url: str) -> Source:
         # image = [i for i in filter(lambda img: img['alt'] != '', images)][0]
         image_url: str = image["src"]
         image_url = image_url[:image_url.find('?')]
+        bias_cls = re.findall('^([a-z]*)', source.image_url.split('/')[-1])[0]
     except Exception as e:
         #print(images)
         #print(e)
@@ -149,11 +150,30 @@ def scrape_source(url: str) -> Source:
             raise Exception()
     except Exception as e:
         raise NotANewsSourceError(f'Could not find factual information on "{source_name}" with url "{url}"')
+        
+    try:
+        def _get_domain(text):
+            return re.sub(r'.*?href="(?:https|http):\/\/(.*?)".*', r'\1',text)
 
+        domain = None
+        domain_text = None
+        if factual is None:
+            domain = bs.find_all('p')
+            for p in paragraphs:
+                domain_text = p.getText().replace('\u00a0', ' ').lower()
+                if 'source: ' in domain_text:
+                    domain = _get_domain(p)
+                    break
+        if domain is None:
+            raise Exception()
+    except Exception as e:
+        raise NotANewsSourceError(f'Could not find domain information on "{source_name}" with url "{url}"')
+        
+        
     bias = analyse_left_right_image(left_right_image_from_url(image_url))
 
     #print(f'Scraping {url} with name "{source_name}", img "{image_url}", and bias {bias}')
-    return Source(name=source_name, img_url=image_url, page_url=url, factual=factual, bias=bias)
+    return Source(name=source_name,domain_url=domain, img_url=image_url, page_url=url, factual=factual, bias=bias, bias_class=bias_cls)
 
 
 def store_sources(sources: List[Source], file_name='sources_file.csv'):
@@ -161,7 +181,7 @@ def store_sources(sources: List[Source], file_name='sources_file.csv'):
         writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         for source in sources:
-            writer.writerow([source.name, source.page_url, source.img_url, source.factual, source.bias])
+            writer.writerow([source.name, source.domain_url, source.page_url, source.img_url, source.factual, source.bias, source.bias_class])
 
 
 def load_sources(file_name='sources_file.csv') -> List[Source]:
@@ -169,7 +189,7 @@ def load_sources(file_name='sources_file.csv') -> List[Source]:
     with open(file_name) as f:
         reader = csv.reader(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for row in reader:
-            sources.append(Source(name=row[0], img_url=row[2], page_url=row[1], factual=Factual[row[3].split('.')[1]], bias=int(row[4])))
+            sources.append(Source(name=row[0], img_url=row[3], domain_url=row[1], page_url=row[2], factual=Factual[row[4].split('.')[1]], bias=int(row[5]), bias_class=row[6]))
     return sources
 
 

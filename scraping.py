@@ -160,8 +160,8 @@ def scrape_source(url: str) -> Source:
         if factual is None:
             domain = bs.find_all('p')
             for p in paragraphs:
-                domain_text = p.getText().replace('\u00a0', ' ').lower()
-                if 'source: ' in domain_text:
+                domain_text = p.replace('\u00a0', ' ').lower()
+                if 'source:' in domain_text:
                     domain = _get_domain(p)
                     break
         if domain is None:

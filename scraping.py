@@ -166,6 +166,7 @@ def scrape_source(url: str) -> Source:
                     break
         if domain is None:
             raise Exception()
+        print(paragraphs)
     except Exception as e:
         raise NotANewsSourceError(f'Could not find domain information on "{source_name}" with url "{url}"')
         

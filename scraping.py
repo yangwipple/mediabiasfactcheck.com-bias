@@ -2,7 +2,7 @@ import csv
 import warnings
 from typing import List, Tuple
 from urllib import request
-
+import re
 import cv2
 import numpy as np
 from requests import get

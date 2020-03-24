@@ -13,9 +13,11 @@ class Factual(Enum):
 @dataclass
 class Source(object):
     name: str
+    domain_url: str
     page_url: str
     img_url: str
     factual: Factual
+    bias_class: str
     bias: int
 
 
